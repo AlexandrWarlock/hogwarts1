@@ -22,11 +22,11 @@ public class FacultyService {
         return faculties.get(id);
     }
 
-    public Faculty editFaculty(Faculty faculty) {
-        if (!faculties.containsKey(faculty.getId())) {
+    public Faculty editFaculty(long id, Faculty faculty) {
+        if (!faculties.containsKey(id)) {
             return null;
         }
-        faculties.put(faculty.getId(), faculty);
+        faculties.put(id, faculty);
         return faculty;
     }
 

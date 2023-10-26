@@ -3,9 +3,13 @@ package ru.hogwarts.school.model;
 import java.util.Objects;
 
 public class Student {
-    private Long id;
+    private long id;
     private String name;
     private int age;
+
+    public Student() {
+
+    }
 
     public Student(Long id, String name, int age) {
         this.id = id;
