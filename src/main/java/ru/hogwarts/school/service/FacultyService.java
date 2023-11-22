@@ -20,7 +20,8 @@ public class FacultyService {
 
     public Faculty findFaculty(long id) {
 
-        return faculties.findById(id).orElseThrow(()-> new RuntimeException("Факультет не найден"));
+        return faculties.findById(id).orElseThrow
+                (()-> new RuntimeException("Факультет не найден"));
     }
 
     public Faculty editFaculty(long id, Faculty faculty) {

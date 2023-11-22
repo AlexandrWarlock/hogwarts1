@@ -46,10 +46,12 @@ public class StudentService {
     }
 
     public Faculty findStudentFaculty(long studentId) {
+
         return findStudent(studentId).getFaculty();
     }
 
     public Collection<Student> findByFacultyId(long facultyId) {
+
         return repository.findByFaculty_Id(facultyId);
     }
 }
