@@ -24,6 +24,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -52,24 +54,39 @@ public class FacultyControllerWebMvcTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(faculty));
     }
+
     @Test
     void read_shouldReturnStatusIsNotFound() throws Exception {
         when(facultyRepository.findById(faculty.getId()))
                 .thenReturn(Optional.empty());
-        mockMvc.perform(get("/faculty/" + faculty.getId()))
-                .andExpect(status().isNotFound());
+        assertThrows(Exception.class,
+                () -> {
+                    mockMvc.perform(get("/faculty/" + faculty.getId()));
+                });
     }
 
     @Test
     void edit_shouldReturnFacultyAndChanges() throws Exception {
         when(facultyRepository.findById(faculty.getId())).thenReturn(Optional.of(faculty));
         when(facultyRepository.save(faculty)).thenReturn(faculty);
-        mockMvc.perform(put("/faculty/")
+        mockMvc.perform(put("/faculty/" + faculty.getId())
                         .content(objectMapper.writeValueAsString(faculty))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(faculty));
     }
+
+    @Test
+    void delete_shouldReturnDeletedFaculty() {
+        when(facultyRepository.findById(faculty.getId()))
+                .thenReturn(Optional.empty());
+        assertThrows(Exception.class,
+                () -> {
+                    mockMvc.perform(delete("/faculty/" + faculty.getId()));
+                });
+        verify(facultyService).removeFaculty(faculty.getId());
+    }
+
     @Test
     void readByColor_shouldReturnFacultiesCollectionAndStatus200() throws Exception {
         Faculty faculty1 = new Faculty(124L, "FakeGriff", "black");

@@ -26,9 +26,8 @@ public class FacultyService {
     }
 
     public Faculty editFaculty(long id, Faculty faculty) {
-        Faculty faculty1 = findFaculty(id);
- //       faculty = findFaculty(id);
-        return facultyRepository.save(faculty1);
+
+        return facultyRepository.save(faculty);
     }
 
     public Faculty removeFaculty(long id) {
