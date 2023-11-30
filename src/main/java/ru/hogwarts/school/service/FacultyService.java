@@ -8,41 +8,42 @@ import java.util.*;
 
 @Service
 public class FacultyService {
-    private final FacultyRepository faculties;
+    private final FacultyRepository facultyRepository;
 
-    public FacultyService(FacultyRepository faculties) {
-        this.faculties = faculties;
+    public FacultyService(FacultyRepository facultyRepository) {
+
+        this.facultyRepository = facultyRepository;
     }
 
     public Faculty addFaculty(Faculty faculty) {
-        return faculties.save(faculty);
+        return facultyRepository.save(faculty);
     }
 
     public Faculty findFaculty(long id) {
 
-        return faculties.findById(id).orElseThrow
+        return facultyRepository.findById(id).orElseThrow
                 (()-> new RuntimeException("Факультет не найден"));
     }
 
     public Faculty editFaculty(long id, Faculty faculty) {
-        findFaculty(id);
-        return faculties.save(faculty);
+
+        return facultyRepository.save(faculty);
     }
 
     public Faculty removeFaculty(long id) {
 
         Faculty result = findFaculty(id);
-        faculties.delete(result);
+        facultyRepository.delete(result);
         return result;
     }
 
     public Collection<Faculty> findByColor(String color) {
 
-        return faculties.findAllByColor(color);
+        return facultyRepository.findAllByColor(color);
     }
 
     public Collection<Faculty> findAllByNameIgnoreCaseOrColorIgnoreCase(String name, String color) {
-        return faculties.findAllByNameIgnoreCaseOrColorIgnoreCase(name, color);
+        return facultyRepository.findAllByNameIgnoreCaseOrColorIgnoreCase(name, color);
     }
 
 }
